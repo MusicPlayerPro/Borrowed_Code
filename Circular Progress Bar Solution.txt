@@ -1,0 +1,60 @@
+Here is my two solution.
+
+Short answer:
+
+Instead of creating a layer-list, I separated it in two files. One for ProgressBar and one for its background.
+
+This is the ProgressDrawable file (@drawable folder): circular_progress_bar.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="270"
+    android:toDegrees="270">
+    <shape
+        android:innerRadiusRatio="2.5"
+        android:shape="ring"
+        android:thickness="1dp"
+        android:useLevel="true"><!-- this line fixes the issue for lollipop api 21 -->
+
+        <gradient
+            android:angle="0"
+            android:endColor="#007DD6"
+            android:startColor="#007DD6"
+            android:type="sweep"
+            android:useLevel="false" />
+    </shape>
+</rotate>
+And this is for its background(@drawable folder): circle_shape.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="ring"
+    android:innerRadiusRatio="2.5"
+    android:thickness="1dp"
+    android:useLevel="false">
+
+    <solid android:color="#CCC" />
+
+</shape>
+And at the End, inside the layout that you're working:
+
+<ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        android:background="@drawable/circle_shape"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"
+        android:progress="65" />
+Here's the result:
+
+enter image description here
+
+Long Answer:
+
+A subclass of the View class, A custom view
+
+enter image description here

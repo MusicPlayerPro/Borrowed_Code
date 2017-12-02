@@ -1,0 +1,35 @@
+Make an XML class (suppose: rotate.xml) and place it in res/anim folder and then write the following code in it:
+
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="0"
+    android:interpolator="@android:anim/linear_interpolator"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:repeatCount="infinite"
+    android:toDegrees="360" />
+	
+	
+Then in your java class, do the following in OnCreate:
+
+final Animation a = AnimationUtils.loadAnimation(CustomActivity.this,
+                R.anim.rotate);
+        a.setDuration(3000);
+        gear00.startAnimation(a);
+OR	
+
+	
+To do it using bitmap, I hope the following sequence of code helps you:
+
+Bitmap targetBitmap = Bitmap.createBitmap(targetWidth, targetHeight, config);
+Canvas canvas = new Canvas(targetBitmap);
+Matrix matrix = new Matrix();
+matrix.setRotate(mRotation,source.getWidth()/2,source.getHeight()/2);
+canvas.drawBitmap(source, matrix, new Paint());
+If you check the following method from:
+
+
+~frameworks\base\graphics\java\android\graphics\Bitmap.java
+public static Bitmap createBitmap(Bitmap source, int x, int y, int width, int height,
+        Matrix m, boolean filter)
+this would explain what it does with rotation and translate.
